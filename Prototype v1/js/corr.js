@@ -1,25 +1,21 @@
-// Load the data from CSV
-function drawCorr(data){
-
-    // Convert numerical values
+function drawCorr(data) {
     data.forEach(d => {
         d["Spotify Streams"] = +d["Spotify Streams"];
         d["Spotify Playlist Reach"] = +d["Spotify Playlist Reach"];
     });
 
-    // Get unique artists
     const uniqueArtists = [...new Set(data.map(d => d["Artist"]))].sort();
 
-    // Select search input and suggestion list
     const artistSearch = d3.select("#artistSearch");
     const artistSuggestions = d3.select("#artistSuggestions");
+    const resetSearch = d3.select("#resetSearch");
 
-    // Show suggestions as the user types
-    artistSearch.on("input", function() {
-        const searchValue = this.value.toLowerCase();
-        const filteredArtists = uniqueArtists.filter(artist => artist.toLowerCase().includes(searchValue));
+    artistSearch.on("input", function () {
+        const searchValue = this.value.toLowerCase().trim();
+        const filteredArtists = uniqueArtists.filter(artist =>
+            artist.toLowerCase().includes(searchValue)
+        );
 
-        // Clear previous suggestions
         artistSuggestions.html("");
 
         if (searchValue === "" || filteredArtists.length === 0) {
@@ -27,12 +23,12 @@ function drawCorr(data){
             return;
         }
 
-        // Display suggestions
         artistSuggestions.style("display", "block");
-        filteredArtists.forEach(artist => {
+
+        filteredArtists.slice(0, 10).forEach(artist => {
             artistSuggestions.append("li")
                 .text(artist)
-                .on("click", function() {
+                .on("click", function () {
                     artistSearch.node().value = artist;
                     artistSuggestions.style("display", "none");
                     updateScatterPlot();
@@ -40,19 +36,23 @@ function drawCorr(data){
         });
     });
 
-    // Hide suggestions when clicking outside
-    d3.select("body").on("click", function(event) {
+    artistSearch.on("blur", function () {
+        const currentValue = artistSearch.node().value;
+        if (!uniqueArtists.includes(currentValue)) {
+            artistSearch.node().value = "";
+        }
+    });
+
+    d3.select("body").on("click", function (event) {
         if (!event.target.closest("#artistSearch") && !event.target.closest("#artistSuggestions")) {
             artistSuggestions.style("display", "none");
         }
     });
 
-    // Set up dimensions
     const margin = { top: 50, right: 50, bottom: 100, left: 100 };
     const width = 900 - margin.left - margin.right;
     const height = 500 - margin.top - margin.bottom;
 
-    // Create SVG container
     const svg = d3.select("#chart3")
         .append("svg")
         .attr("width", width + margin.left + margin.right)
@@ -60,7 +60,6 @@ function drawCorr(data){
         .append("g")
         .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-    // Create X and Y scales (Linear)
     const xScale = d3.scaleLinear()
         .domain([0, d3.max(data, d => d["Spotify Playlist Reach"])])
         .range([0, width]);
@@ -69,16 +68,13 @@ function drawCorr(data){
         .domain([0, d3.max(data, d => d["Spotify Streams"])])
         .range([height, 0]);
 
-    // Add X-axis
     svg.append("g")
         .attr("transform", `translate(0, ${height})`)
         .call(d3.axisBottom(xScale).ticks(5).tickFormat(d3.format(".2s")));
 
-    // Add Y-axis
     svg.append("g")
         .call(d3.axisLeft(yScale).ticks(5).tickFormat(d3.format(".2s")));
 
-    // Labels
     svg.append("text")
         .attr("x", width / 2)
         .attr("y", height + 40)
@@ -94,7 +90,6 @@ function drawCorr(data){
         .style("font-size", "14px")
         .text("Spotify Streams");
 
-    // Tooltip
     const tooltip = d3.select("body")
         .append("div")
         .style("position", "absolute")
@@ -105,7 +100,6 @@ function drawCorr(data){
         .style("visibility", "hidden")
         .style("font-size", "14px");
 
-    // Draw initial scatter plot
     const circles = svg.selectAll(".point")
         .data(data)
         .enter()
@@ -113,11 +107,11 @@ function drawCorr(data){
         .attr("class", "point")
         .attr("cx", d => xScale(d["Spotify Playlist Reach"]))
         .attr("cy", d => yScale(d["Spotify Streams"]))
-        .attr("r", 3) // Small fixed size for visibility
-        .style("fill", "#1DB954") // Spotify Green
+        .attr("r", 3)
+        .style("fill", "#1DB954")
         .style("opacity", 0.7)
-        .on("mouseover", function(event, d) {
-            d3.select(this).style("fill", "#004d00"); // Dark Green on hover
+        .on("mouseover", function (event, d) {
+            d3.select(this).style("fill", "#004d00");
             tooltip.html(`<strong>${d["Track"]}</strong><br>
                           Artist: ${d["Artist"]}<br>
                           Streams: ${d3.format(",")(d["Spotify Streams"])}<br>
@@ -126,20 +120,31 @@ function drawCorr(data){
                 .style("top", (event.pageY - 10) + "px")
                 .style("left", (event.pageX + 10) + "px");
         })
-        .on("mouseout", function() {
-            d3.select(this).style("fill", "#1DB954"); // Revert to Spotify Green
+        .on("mouseout", function () {
+            d3.select(this).style("fill", "#1DB954");
             tooltip.style("visibility", "hidden");
         });
 
-    // Function to update scatter plot based on artist search
     function updateScatterPlot() {
         const selectedArtist = artistSearch.node().value;
-        
+        if (!selectedArtist){
+            circles.transition().duration(500)
+            .style("opacity", 0.7)
+        }
+        if (!uniqueArtists.includes(selectedArtist)) return;
+
         circles.transition().duration(500)
-            .style("opacity", d => 
-                selectedArtist === "" || d["Artist"] === selectedArtist ? 0.9 : 0.2);
+            .style("opacity", d =>
+                selectedArtist === "" || d["Artist"] === selectedArtist ? 1 : 0.1)
+            .style("fill", d =>
+                selectedArtist === "" || d["Artist"] === selectedArtist ? "#1DB954" : "#cccccc"
+            ); // Spotify Green for selected, Light Gray for others
     }
 
-    // Event listener for search input
-    artistSearch.on("input", updateScatterPlot);
-};
+    resetSearch.on("click", function () {
+        artistSearch.node().value = ""; 
+        artistSuggestions.style("display", "none");
+        updateScatterPlot(); 
+    });
+
+}

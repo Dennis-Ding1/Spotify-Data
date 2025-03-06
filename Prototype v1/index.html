@@ -65,11 +65,14 @@
             <div class="vis-container">
                 <h3>Correlation Between Playlist Reach and Streams</h3>
 
-                <!-- Artist Filter (Searchable Input with Suggestions) -->
-                <label for="artistSearch">Search Artist:</label>
-                <input type="text" id="artistSearch" placeholder="Type an artist name..." autocomplete="off">
-                <ul id="artistSuggestions" class="suggestions-list"></ul>
-
+                <!-- Artist Search Container -->
+                <div id="artist-search-container">
+                    <label for="artistSearch">Search Artist:</label>
+                    <input type="text" id="artistSearch" placeholder="Type an artist name..." autocomplete="off">
+                    <ul id="artistSuggestions" class="suggestions-list"></ul>
+                    <button id="resetSearch">Reset</button>
+                </div>
+            
                 <!-- Scatter Plot -->
                 <h3>Vis 3</h3>
                 <div id="chart3"></div>
