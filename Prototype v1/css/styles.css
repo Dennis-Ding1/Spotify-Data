@@ -165,7 +165,7 @@ footer {
     max-height: 150px;
     overflow-y: auto;
     z-index: 10;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* List items inside dropdown */
@@ -192,4 +192,31 @@ footer {
 #resetSearch:hover {
     background-color: #aaa;
 }
+
+/* Centering the slider container */
+.slider-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px; /* Space between elements */
+    margin: 20px auto;
+    width: 100%;  /* Adjust as needed */
+}
+
+/* Styling for the slider track */
+#year-slider-100 {
+    width: 500px;  /* Adjust for proper alignment */
+    margin: 0;
+}
+
+/* Styling for input boxes */
+#slider-start, #slider-end {
+    width: 60px;
+    text-align: center;
+    font-size: 14px;
+    padding: 4px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
 

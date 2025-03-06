@@ -58,8 +58,15 @@
 
             <!-- Placeholder for Visualization 2 -->
             <div class="vis-container">
-                <h3>Vis 2</h3>
-                <div id="chart2"></div>
+                <h3>Top 100 Songs: Track Score Ranges vs. Number of Songs</h3>
+
+                <div class="slider-container">
+                    <label>Filter by Year: </label>
+                    <input id="slider-start" type="number">
+                    <div id="year-slider-100"></div>
+                    <input id="slider-end" type="number">
+                </div>
+                <div id="top_100_songs"></div>
             </div>
 
             <!-- Placeholder for Visualization 3 -->
@@ -75,7 +82,7 @@
                 </div>
             
                 <!-- Scatter Plot -->
-                <h3>Vis 3</h3>
+<!--                <h3>Vis 3</h3>-->
                 <div id="chart3"></div>
             </div>
             
@@ -98,6 +105,7 @@
     <script src="js/main.js"></script>
     <script src="js/top_10_songs.js"></script>
     <script src="js/corr.js"></script>
+    <script src="js/top_100_songs.js"></script>
 
 </body>
 </html>
