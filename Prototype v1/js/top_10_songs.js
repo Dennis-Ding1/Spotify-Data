@@ -75,6 +75,12 @@ function drawTop10Songs(data) {
             .transition().duration(500)
             .call(d3.axisBottom(x).ticks(5).tickFormat(d => d3.format(".1f")(d / 1e9) + "B"));
 
+        svg.append("text")
+        .attr("x", width / 2)
+        .attr("y", height + 40)
+        .attr("text-anchor", "middle")
+        .text("Spotify Streams");
+
         svg.select(".y-axis")
             .transition().duration(500)
             .call(d3.axisLeft(y));
