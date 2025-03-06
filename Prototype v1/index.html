@@ -63,9 +63,18 @@
 
             <!-- Placeholder for Visualization 3 -->
             <div class="vis-container">
+                <h3>Correlation Between Playlist Reach and Streams</h3>
+
+                <!-- Artist Filter (Searchable Input with Suggestions) -->
+                <label for="artistSearch">Search Artist:</label>
+                <input type="text" id="artistSearch" placeholder="Type an artist name..." autocomplete="off">
+                <ul id="artistSuggestions" class="suggestions-list"></ul>
+
+                <!-- Scatter Plot -->
                 <h3>Vis 3</h3>
                 <div id="chart3"></div>
             </div>
+            
         </section>
 
         <!-- Section: Analysis -->
@@ -84,6 +93,7 @@
     <!-- JavaScript -->
     <script src="js/main.js"></script>
     <script src="js/top_10_songs.js"></script>
+    <script src="js/corr.js"></script>
 
 </body>
 </html>
