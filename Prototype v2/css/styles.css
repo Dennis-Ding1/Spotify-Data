@@ -26,43 +26,44 @@ header {
 }
 
 header h1 {
-    font-size: 2.5rem;
+    font-size: 2.3vw;
 }
 
 header p {
-    font-size: 1.2rem;
+    font-size: 1.5vw;
 }
 
 /* Author Text */
 .author {
-    font-size: 18px;
+    font-size: 1.2vw;
     margin: 0;
 }
 
 /* ======= Container & Sections ======= */
 .container {
-    max-width: 1100px;
+    width: 70%;
     margin: auto;
     padding: 20px;
 }
 
 section {
-    padding: 20px 0;
+    padding: 2vw 0;
 }
 
 h2 {
     border-bottom: 3px solid #1DB954;
-    padding-bottom: 5px;
-    margin-bottom: 20px;
+    padding-bottom: 0.5vw;
+    margin-bottom: 2vw;
 }
 
 /* ======= Data Visualization Section ======= */
 .vis-container {
-    margin: 20px 0;
-    padding: 20px;
+    margin: 2vw 0;
+    padding: 2vw;
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
 }
 
 /* ======= D3 Visualization Styles ======= */
@@ -82,7 +83,7 @@ svg {
 
 /* Axis labels */
 .axis text {
-    font-size: 14px;
+    font-size: 1.2vw;
 }
 
 .axis path,
@@ -92,7 +93,7 @@ svg {
 
 /* Bar Chart Labels */
 .label {
-    font-size: 12px;
+    font-size: 1.2vw;
     fill: black;
     font-weight: bold;
 }
@@ -102,8 +103,8 @@ footer {
     background-color: #1DB954;
     color: white;
     text-align: center;
-    padding: 15px 0;
-    font-size: 1rem;
+    padding: 1.5vw 0;
+    font-size: 1.2vw;
 }
 
 

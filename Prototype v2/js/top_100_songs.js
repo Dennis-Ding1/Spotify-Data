@@ -1,6 +1,6 @@
 let data;  // Global variable to store data
 
-function drawTop100Songs(rawData) {
+function drawTop100Songs(rawData, updateTop10Chart) {
     // Convert data types
     rawData.forEach(d => {
         d["Spotify Popularity"] = +d["Spotify Popularity"];
@@ -11,7 +11,7 @@ function drawTop100Songs(rawData) {
     data = rawData; // Store in global variable
 
     // Create slider after loading data
-    createSlider();
+    createSlider(updateTop10Chart);
 
     // Draw the initial visualization with all data
     updateVisualization();
@@ -41,7 +41,7 @@ function updateVisualization(filteredData = data) {
     trackScoreData.sort((a, b) => a.trackScore - b.trackScore);
 
     // Set margins and dimensions
-    const margin = { top: 50, right: 30, bottom: 60, left: 100 };
+    const margin = { top: 0, right: 30, bottom: 60, left: 150 };
     const width = 800 - margin.left - margin.right;
     const height = 500 - margin.top - margin.bottom;
 
@@ -145,11 +145,11 @@ function updateVisualization(filteredData = data) {
         .text("Number of Songs");
 }
 
-function createSlider() {
+function createSlider(updateTop10Chart) {
     let minYear = d3.min(data, d => d["Release Year"]);
     let maxYear = d3.max(data, d => d["Release Year"]);
 
-    let slider = document.getElementById('year-slider-100');
+    let slider = document.getElementById('year-slider');
 
     let config = {
         start: [minYear, maxYear],
@@ -180,6 +180,7 @@ function createSlider() {
         );
 
         updateVisualization(filteredData);
+        updateTop10Chart(startYearInput.value, endYearInput.value)
     });
 
     startYearInput.addEventListener("input", () => {

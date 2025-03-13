@@ -4,7 +4,7 @@ function drawTop10Songs(data) {
         d["Release Year"] = new Date(d["Release Date"]).getFullYear(); // Extract Year
     });
 
-    const margin = {top: 50, right: 30, bottom: 100, left: 250};
+    const margin = {top: 50, right: 30, bottom: 0, left: 250};
     const width = 800 - margin.left - margin.right;
     const height = 500 - margin.top - margin.bottom;
 
@@ -20,29 +20,30 @@ function drawTop10Songs(data) {
     const y = d3.scaleBand().range([0, height]).padding(0.2);
 
     // noUiSlider
-    let minYear = 2010  // d3.min(data, d => d["Release Year"]);
+    let minYear = d3.min(data, d => d["Release Year"]);
     let maxYear = d3.max(data, d => d["Release Year"]);
 
-    let slider = document.getElementById("year-slider");
+    // let slider = document.getElementById("year-slider");
 
-    noUiSlider.create(slider, {
-        start: [minYear, maxYear], 
-        connect: true,
-        range: {
-            "min": minYear,
-            "max": maxYear
-        },
-        step: 1,
-        tooltips: [true, true], 
-        format: {
-            to: value => Math.round(value),
-            from: value => Math.round(value)
-        }
-    });
+    // noUiSlider.create(slider, {
+    //     start: [minYear, maxYear], 
+    //     connect: true,
+    //     range: {
+    //         "min": minYear,
+    //         "max": maxYear
+    //     },
+    //     step: 1,
+    //     tooltips: [true, true], 
+    //     format: {
+    //         to: value => Math.round(value),
+    //         from: value => Math.round(value)
+    //     }
+    // });
 
-    function updateChart([selectedMinYear, selectedMaxYear]) {
-        selectedMinYear = Math.round(selectedMinYear);
-        selectedMaxYear = Math.round(selectedMaxYear);
+    function updateTop10Chart(selectedMinYear, selectedMaxYear) {
+        // selectedMinYear = Math.round(selectedMinYear);
+        // selectedMaxYear = Math.round(selectedMaxYear);
+        
 
         // Update displayed year values
         // document.getElementById("minYearLabel").textContent = selectedMinYear;
@@ -103,7 +104,7 @@ function drawTop10Songs(data) {
     svg.append("g").attr("class", "x-axis").attr("transform", `translate(0, ${height})`);
     svg.append("g").attr("class", "y-axis");
 
-    slider.noUiSlider.on("update", values => updateChart(values));
-
-    updateChart([minYear, maxYear]);
+    // slider.noUiSlider.on("update", values => updateTop10Chart(values));
+    setTimeout(() =>updateTop10Chart(minYear, maxYear), 100);
+    return updateTop10Chart
 }
