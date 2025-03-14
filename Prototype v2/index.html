@@ -23,7 +23,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <i class="fab fa-spotify fa-2x"></i>
-            <a class="navbar-brand" href="#">Spotify Insight</a>
+            <a class="navbar-brand" href=" ">Spotify Insight</a >
         </div>
     </nav>
 
@@ -32,7 +32,7 @@
         <div class="title-container">
             <h1>How Shopify Shapes Global Music Trends</h1>
             <h3>Explore what makes a song a stream hit.</h3>
-            <p>Created by: Haochen Ding, Yinuo Yang, Xinyue Li</p>
+            <p>Created by: Haochen Ding, Yinuo Yang, Xinyue Li</p >
         </div>
         <img src="img/hero.png" alt="picture"/>
     </header>
@@ -42,7 +42,7 @@
 
         <!-- Section: Introduction -->
         <section id="slider" class="mb-5">
-            <h2>           🎧 What Makes a Song a Streaming Hit?   </h2>
+            <h2> 🎧 What Makes a Song a Streaming Hit?   </h2>
             Spotify has changed the way people listen to music, turning songs into global hits with billions of streams.         
         </section>
 
@@ -51,12 +51,11 @@
             <h2>Data Visualizations</h2>
 
             <div class="vis-container">
-                <h3>Number of Songs Released Per Year</h3>
+                <h3 class="text-center">Release Year Trends of the Most Streamed Songs in 2024</h3>
             
                 <!-- Explanation Section -->
-                <p class="chart-description">
-                    Explore how the number of released songs has changed over time. 
-                    Use the brush tool to select a range of years and filter the other visualizations accordingly.
+                <p class="chart-instructions">
+                    Drag to select years. Charts update automatically.
                 </p >
             
                 <!-- Chart Container (This will hold the bar chart with brush interaction) -->
@@ -66,15 +65,14 @@
             <!-- Placeholder for Visualization 1 -->
             <div class="row">
                 <div class="insight-container col-4">
-                    <h4>📊 What Dominates Spotify?
-                    </h4>
-                    <p class="insight">📌For 1987-2024, "As It Was" (Harry Styles) leads with 3.3 billion streams, followed by "STAY" (Justin Bieber) with 3.1 billion streams.
-                    </p>
-                    <p class="insight">📌Most top-streamed songs are recent releases, reveals how newer music gains traction faster in the streaming era.</p>
+                    <h4>📊 What Dominates Spotify?</h4>
+                    <p class="insight">📌 For 1987-2024, "As It Was" (Harry Styles) leads with 3.3 billion streams, followed by "STAY" (Justin Bieber) with 3.1 billion streams.
+                    </p >
+                    <p class="insight">📌 Most top-streamed songs are recent releases, reveals how newer music gains traction faster in the streaming era.</p >
                     <p class="tip">
                         <i class="fas fa-lightbulb"></i>
-                        Adjust the year filter to compare different decades.
-                    </p>
+                        Use the brush tool to explore how top-streamed songs vary across different time periods.
+                    </p >
                 </div>
                 <div class="vis-container col-8">
 
@@ -89,18 +87,18 @@
                 <div class="insight-container col-4">
                     <h4>🎵 Are High Rated Songs Declining?</h4>
 
-                    <p class="insight">📌Track scores? How listeners and critics rate top songs.
-                    </p>
-                    <p class="insight">📌A decline in highly rated songs. Possible Reason:  Increased competition or changing audience preferences.</p>
+                    <p class="insight">📌 Track scores? How listeners and critics rate top songs.
+                    </p >
+                    <p class="insight">📌 A decline in highly rated songs. Possible Reason:  Increased competition or changing audience preferences.</p >
                     <p class="tip">
                         <i class="fas fa-lightbulb"></i>
-                        Adjust the year filter to compare track scores by decade.
-                    </p>
+                        Use the brush tool to select a time range and analyze track score trends.
+                    </p >
                 </div>
                 <div class="vis-container col-8">
 
                     <!-- Top 100 Songs -->
-                    <h3 class="text-center">Top 100 Most Popularity Songs: Track Score Ranges</h3>
+                    <h3 id="chart-title" class="chart-title text-center">Track Score Ranges in Top 100 Most Popularity Songs <br> (1987 - 2024)</h3>
                     <div id="top_100_songs"></div>
 
                 </div>
@@ -114,17 +112,17 @@
                         <ul id="artistSuggestions" class="suggestions-list"></ul>
                         <button id="resetSearch">Reset</button>
                     </div>
-                    <p class="insight">📌Songs featured in high-reach playlists tend to have higher streams, proving that playlist placement is crucial for success.</p>
-                    <p class="insight">📌However, some viral hits succeed organically despite lower playlist exposure, suggesting the power of social media and listener-driven growth.</p>
+                    <p class="insight">📌 Songs featured in high-reach playlists tend to have higher streams, proving that playlist placement is crucial for success.</p >
+                    <p class="insight">📌 However, some viral hits succeed organically despite lower playlist exposure, suggesting the power of social media and listener-driven growth.</p >
                     
                     <p class="tip">
                         <i class="fas fa-lightbulb"></i>
-                        Use the search box to highlight an artist’s songs
-                    </p>
+                        Use the search box to highlight an artist’s songs.
+                    </p >
                 </div>
                 <div class="vis-container col-8">
 
-                    <h3>Correlation Between Playlist Reach and Streams</h3>
+                    <h3 id="chart-title" class="chart-title text-center">Correlation Between Playlist Reach and Streams</h3>
                     <div id="chart3"></div>
 
                 </div>
@@ -135,17 +133,17 @@
         <!-- Section: Analysis -->
         <section id="analysis" class="mb-5">
             <h2>Findings & Insights</h2>
-            <p class="insight">  📌Newer songs dominate the most-streamed charts. </p>
-            <p class="insight"> 📌High-rated songs are becoming less common.</p>
-            <p class="insight">📌Spotify playlists strongly influence success. </p>
-            <p class="insight"> 📌Organic viral hits still emerge through social media and listener engagement.</p>
+            <p class="insight">  📌 Newer songs dominate the most-streamed charts. </p >
+            <p class="insight"> 📌 High-rated songs are becoming less common.</p >
+            <p class="insight">📌 Spotify playlists strongly influence success. </p >
+            <p class="insight"> 📌 Organic viral hits still emerge through social media and listener engagement.</p >
         </section>
         
     </div>
 
     <!-- Footer -->
     <footer class="bg-dark text-white text-center py-3">
-        <p>&copy; 2025 Spotify Data Visualization Project</p>
+        <p>&copy; 2025 Spotify Data Visualization Project</p >
     </footer>
 
     <!-- JavaScript -->

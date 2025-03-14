@@ -21,6 +21,10 @@ export function drawTop100Songs(rawData, updateTop10Chart) {
 }
 
 function updateVisualization(minYear, maxYear, updateTop10Chart) {
+    d3.select("#top_100_songs")
+    .node().closest(".vis-container")
+    .querySelector(".chart-title").innerHTML = `Track Score Ranges in Top 100 Most Popularity Songs <br> (${minYear} - ${maxYear})`;
+
     let filteredData = data.filter(d =>
         d["Release Year"] >= minYear && d["Release Year"] <= maxYear
     );
@@ -152,55 +156,7 @@ function updateVisualization(minYear, maxYear, updateTop10Chart) {
         .text("Number of Songs");
 
     if (updateTop10Chart) {
-        setTimeout(() =>updateTop10Chart(minYear, maxYear), 100);
+        updateTop10Chart(minYear, maxYear)
     }
-}
-
-
-
-function createSlider(updateTop10Chart) {
-    let minYear = d3.min(data, d => d["Release Year"]);
-    let maxYear = d3.max(data, d => d["Release Year"]);
-
-    let slider = document.getElementById('year-slider');
-
-    let config = {
-        start: [minYear, maxYear],
-        range: {
-            'min': minYear,
-            'max': maxYear
-        },
-        step: 1, // Ensure only whole numbers (years)
-        connect: true,
-        behaviour: 'tap-drag'
-    };
-
-    noUiSlider.create(slider, config);
-
-    let startYearInput = document.getElementById('slider-start');
-    let endYearInput = document.getElementById('slider-end');
-
-    startYearInput.value = minYear;
-    endYearInput.value = maxYear;
-
-    // Ensure displayed values are whole numbers
-    slider.noUiSlider.on('update', function (values) {
-        startYearInput.value = Math.round(values[0]);
-        endYearInput.value = Math.round(values[1]);
-
-        let filteredData = data.filter(d =>
-            d["Release Year"] >= Math.round(values[0]) && d["Release Year"] <= Math.round(values[1])
-        );
-
-        updateVisualization(filteredData);
-    });
-
-    startYearInput.addEventListener("input", () => {
-        slider.noUiSlider.set([Math.round(startYearInput.value), Math.round(endYearInput.value)]);
-    });
-
-    endYearInput.addEventListener("input", () => {
-        slider.noUiSlider.set([Math.round(startYearInput.value), Math.round(endYearInput.value)]);
-    });
 }
 

@@ -110,8 +110,14 @@ export function drawCorr(data) {
         .attr("r", 3)
         .style("fill", "#1DB954")
         .style("opacity", 0.7)
+        .each(function (d) { d.originalColor = "#1DB954"; })
         .on("mouseover", function (event, d) {
-            d3.select(this).style("fill", "#004d00");
+            const currentColor = d3.color(d3.select(this).style("fill")); 
+            const darkerColor = currentColor.darker(1); 
+
+            d3.select(this)
+                .attr("previousColor", currentColor)
+                .style("fill", darkerColor);
             tooltip.html(`<strong>${d["Track"]}</strong><br>
                           Artist: ${d["Artist"]}<br>
                           Streams: ${d3.format(",")(d["Spotify Streams"])}<br>
@@ -121,30 +127,43 @@ export function drawCorr(data) {
                 .style("left", (event.pageX + 10) + "px");
         })
         .on("mouseout", function () {
-            d3.select(this).style("fill", "#1DB954");
+            const previousColor = d3.select(this).attr("previousColor") || d.originalColor;
+            d3.select(this).style("fill", previousColor);
             tooltip.style("visibility", "hidden");
         });
 
-    function updateScatterPlot() {
-        const selectedArtist = artistSearch.node().value;
-        if (!selectedArtist){
+        function updateScatterPlot() {
+            const selectedArtist = artistSearch.node().value;
+            if (!selectedArtist) {
+                circles.transition().duration(500)
+                    .style("opacity", 0.7)
+                    .style("fill", "#1DB954"); 
+                return;
+            }
+        
             circles.transition().duration(500)
-            .style("opacity", 0.7)
-        }
-        // if (!uniqueArtists.includes(selectedArtist)) return;
+                .style("opacity", d =>
+                    d["Artist"] === selectedArtist ? 1 : 0.1)
+                .style("fill", d =>
+                    d["Artist"] === selectedArtist ? "#1DB954" : "#cccccc"
+                );
+        
+            // Move selected points to the front
+            circles.filter(d => d["Artist"] === selectedArtist).each(function () {
+                this.parentNode.appendChild(this);
+            });
+        } 
+        resetSearch.on("click", function () {
+            artistSearch.node().value = "";
+            artistSuggestions.style("display", "none");
+        
+            circles.transition().duration(500)
+                .style("opacity", 0.7)
+                .style("fill", "#1DB954");
 
-        circles.transition().duration(500)
-            .style("opacity", d =>
-                selectedArtist === "" || d["Artist"] === selectedArtist ? 1 : 0.1)
-            .style("fill", d =>
-                selectedArtist === "" || d["Artist"] === selectedArtist ? "#1DB954" : "#cccccc"
-            ); // Spotify Green for selected, Light Gray for others
-    }
-
-    resetSearch.on("click", function () {
-        artistSearch.node().value = "";
-        artistSuggestions.style("display", "none");
-        updateScatterPlot(); 
-    });
+            circles.each(function () {
+                this.parentNode.appendChild(this);
+            });
+        });
 
 }

@@ -50,17 +50,13 @@ export function drawTop10Songs(data) {
         // document.getElementById("maxYearLabel").textContent = selectedMaxYear;
 
         d3.select(".chart-title")
-        .text(`Top 10 Most Streamed Songs on Spotify (${selectedMinYear} - ${selectedMaxYear})`);
-
+        .html(`Top 10 Most Streamed Songs on Spotify <br> (${selectedMinYear} - ${selectedMaxYear})`);
+    
         let filteredData = data.filter(d => d["Release Year"] >= selectedMinYear && d["Release Year"] <= selectedMaxYear);
 
-        // let top10 = filteredData.sort((a, b) => b["Spotify Streams"] - a["Spotify Streams"]).slice(0, 10);
-        let top10 = filteredData.sort((a, b) => b["Spotify Streams"] - a["Spotify Streams"]).slice(0, 10);
+        filteredData.sort((a, b) => b["Spotify Streams"] - a["Spotify Streams"]);
 
-        console.log(selectedMinYear)
-        console.log(selectedMaxYear)
-        console.log(filteredData)
-
+        let top10 = filteredData.slice(0, 10);
 
         x.domain([0, d3.max(top10, d => d["Spotify Streams"])]);
         y.domain(top10.map(d => d["Track"]));

@@ -31,6 +31,15 @@ for (col in text_columns) {
 ```{r}
 colSums(is.na(spotify_data))
 ```
+```{r}
+spotify_data <- spotify_data %>%
+  filter(!is.na(`Spotify Streams`) & Artist != "xSyborg") %>% 
+  mutate(`Release Date` = as.Date(`Release Date`, format = "%m/%d/%Y")) %>% # Convert to Date
+  group_by(Track) %>%
+  arrange(`Release Date`, desc(`Track Score`)) %>%  # Sort by earliest date, then highest Track Score
+  slice(1) %>%
+  ungroup()
+```
 
 ```{r}
 write_csv(spotify_data, "Cleaned_Spotify_Data.csv")
