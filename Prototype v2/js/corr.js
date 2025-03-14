@@ -1,4 +1,4 @@
-function drawCorr(data) {
+export function drawCorr(data) {
     data.forEach(d => {
         d["Spotify Streams"] = +d["Spotify Streams"];
         d["Spotify Playlist Reach"] = +d["Spotify Playlist Reach"];

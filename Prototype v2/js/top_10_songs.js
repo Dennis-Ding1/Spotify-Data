@@ -1,4 +1,4 @@
-function drawTop10Songs(data) {
+export function drawTop10Songs(data) {
     data.forEach(d => {
         d["Spotify Streams"] = +d["Spotify Streams"];
         d["Release Year"] = new Date(d["Release Date"]).getFullYear(); // Extract Year
@@ -54,7 +54,13 @@ function drawTop10Songs(data) {
 
         let filteredData = data.filter(d => d["Release Year"] >= selectedMinYear && d["Release Year"] <= selectedMaxYear);
 
+        // let top10 = filteredData.sort((a, b) => b["Spotify Streams"] - a["Spotify Streams"]).slice(0, 10);
         let top10 = filteredData.sort((a, b) => b["Spotify Streams"] - a["Spotify Streams"]).slice(0, 10);
+
+        console.log(selectedMinYear)
+        console.log(selectedMaxYear)
+        console.log(filteredData)
+
 
         x.domain([0, d3.max(top10, d => d["Spotify Streams"])]);
         y.domain(top10.map(d => d["Track"]));
@@ -106,5 +112,5 @@ function drawTop10Songs(data) {
 
     // slider.noUiSlider.on("update", values => updateTop10Chart(values));
     setTimeout(() =>updateTop10Chart(minYear, maxYear), 100);
-    return updateTop10Chart
+    return updateTop10Chart;
 }

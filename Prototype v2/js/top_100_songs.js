@@ -1,23 +1,30 @@
 let data;  // Global variable to store data
 
-function drawTop100Songs(rawData, updateTop10Chart) {
+export function drawTop100Songs(rawData, updateTop10Chart) {
     // Convert data types
     rawData.forEach(d => {
         d["Spotify Popularity"] = +d["Spotify Popularity"];
         d["Track Score"] = +d["Track Score"];
         d["Release Year"] = new Date(d["Release Date"]).getFullYear();
     });
+    let minYear = d3.min(rawData, d => d["Release Year"]);
+    let maxYear = d3.max(rawData, d => d["Release Year"]);
 
     data = rawData; // Store in global variable
 
     // Create slider after loading data
-    createSlider(updateTop10Chart);
+    // createSlider();
 
     // Draw the initial visualization with all data
-    updateVisualization();
+    updateVisualization(minYear, maxYear, updateTop10Chart);
+    return updateVisualization
 }
 
-function updateVisualization(filteredData = data) {
+function updateVisualization(minYear, maxYear, updateTop10Chart) {
+    let filteredData = data.filter(d =>
+        d["Release Year"] >= minYear && d["Release Year"] <= maxYear
+    );
+
     // Sort by Spotify Popularity and get top 100 songs
     let top100Songs = filteredData.sort((a, b) => b["Spotify Popularity"] - a["Spotify Popularity"]).slice(0, 100);
 
@@ -143,7 +150,13 @@ function updateVisualization(filteredData = data) {
         .attr("transform", "rotate(-90)")
         .attr("text-anchor", "middle")
         .text("Number of Songs");
+
+    if (updateTop10Chart) {
+        setTimeout(() =>updateTop10Chart(minYear, maxYear), 100);
+    }
 }
+
+
 
 function createSlider(updateTop10Chart) {
     let minYear = d3.min(data, d => d["Release Year"]);
@@ -180,7 +193,6 @@ function createSlider(updateTop10Chart) {
         );
 
         updateVisualization(filteredData);
-        updateTop10Chart(startYearInput.value, endYearInput.value)
     });
 
     startYearInput.addEventListener("input", () => {

@@ -42,25 +42,35 @@
 
         <!-- Section: Introduction -->
         <section id="slider" class="mb-5">
-            <h2>Introduction</h2>
-            <div class="slider-container">
-                <label>Filter by Year: </label>
-                <input id="slider-start" type="number">
-                <div id="year-slider"></div>
-                <input id="slider-end" type="number">
-            </div>
+            <h2>           🎧 What Makes a Song a Streaming Hit?   </h2>
+            Spotify has changed the way people listen to music, turning songs into global hits with billions of streams.         
         </section>
 
         <!-- Section: D3.js Visualizations -->
         <section id="visualizations" class="mb-5">
             <h2>Data Visualizations</h2>
 
+            <div class="vis-container">
+                <h3>Number of Songs Released Per Year</h3>
+            
+                <!-- Explanation Section -->
+                <p class="chart-description">
+                    Explore how the number of released songs has changed over time. 
+                    Use the brush tool to select a range of years and filter the other visualizations accordingly.
+                </p >
+            
+                <!-- Chart Container (This will hold the bar chart with brush interaction) -->
+                <div id="chart4"></div>
+            </div>
+
             <!-- Placeholder for Visualization 1 -->
             <div class="row">
                 <div class="insight-container col-4">
-                    <h4>Are High Rated Songs Declining?</h4>
-                    <p class="insight">Insight 1</p>
-                    <p class="insight">Insight 2</p>
+                    <h4>📊 What Dominates Spotify?
+                    </h4>
+                    <p class="insight">📌For 1987-2024, "As It Was" (Harry Styles) leads with 3.3 billion streams, followed by "STAY" (Justin Bieber) with 3.1 billion streams.
+                    </p>
+                    <p class="insight">📌Most top-streamed songs are recent releases, reveals how newer music gains traction faster in the streaming era.</p>
                     <p class="tip">
                         <i class="fas fa-lightbulb"></i>
                         Adjust the year filter to compare different decades.
@@ -77,9 +87,11 @@
 
             <div class="row">
                 <div class="insight-container col-4">
-                    <h4>Are High Rated Songs Declining?</h4>
-                    <p class="insight">Insight 1</p>
-                    <p class="insight">Insight 2</p>
+                    <h4>🎵 Are High Rated Songs Declining?</h4>
+
+                    <p class="insight">📌Track scores? How listeners and critics rate top songs.
+                    </p>
+                    <p class="insight">📌A decline in highly rated songs. Possible Reason:  Increased competition or changing audience preferences.</p>
                     <p class="tip">
                         <i class="fas fa-lightbulb"></i>
                         Adjust the year filter to compare track scores by decade.
@@ -97,13 +109,18 @@
             <div class="row">
                 <div class="insight-container col-4">
                     <h4>Are High Rated Songs Declining?</h4>
-                    <p class="insight">Insight 1</p>
-                    <p class="insight">Insight 2</p>
                     <div id="artist-search-container">
                         <input type="text" id="artistSearch" placeholder="Type an artist name..." autocomplete="off">
                         <ul id="artistSuggestions" class="suggestions-list"></ul>
                         <button id="resetSearch">Reset</button>
                     </div>
+                    <p class="insight">📌Songs featured in high-reach playlists tend to have higher streams, proving that playlist placement is crucial for success.</p>
+                    <p class="insight">📌However, some viral hits succeed organically despite lower playlist exposure, suggesting the power of social media and listener-driven growth.</p>
+                    
+                    <p class="tip">
+                        <i class="fas fa-lightbulb"></i>
+                        Use the search box to highlight an artist’s songs
+                    </p>
                 </div>
                 <div class="vis-container col-8">
 
@@ -118,9 +135,12 @@
         <!-- Section: Analysis -->
         <section id="analysis" class="mb-5">
             <h2>Findings & Insights</h2>
-            <p>Explore key insights from our dataset.</p>
+            <p class="insight">  📌Newer songs dominate the most-streamed charts. </p>
+            <p class="insight"> 📌High-rated songs are becoming less common.</p>
+            <p class="insight">📌Spotify playlists strongly influence success. </p>
+            <p class="insight"> 📌Organic viral hits still emerge through social media and listener engagement.</p>
         </section>
-
+        
     </div>
 
     <!-- Footer -->
@@ -129,10 +149,11 @@
     </footer>
 
     <!-- JavaScript -->
-    <script src="js/main.js"></script>
-    <script src="js/top_10_songs.js"></script>
-    <script src="js/corr.js"></script>
-    <script src="js/top_100_songs.js"></script>
+    <script type="module" src="js/main.js"></script>
+    <script type="module" src="js/top_10_songs.js"></script>
+    <script type="module" src="js/corr.js"></script>
+    <script type="module" src="js/top_100_songs.js"></script>
+    <script type="module" src="js/song_count.js"></script>
 
 </body>
 </html>
