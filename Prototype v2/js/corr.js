@@ -50,8 +50,8 @@ function drawCorr(data) {
     });
 
     const margin = { top: 50, right: 50, bottom: 100, left: 100 };
-    const width = 900 - margin.left - margin.right;
-    const height = 500 - margin.top - margin.bottom;
+    let width = document.getElementById("chart3").getBoundingClientRect().width - margin.left - margin.right;
+    let height = document.getElementById("chart3").getBoundingClientRect().height - margin.top - margin.bottom;
 
     const svg = d3.select("#chart3")
         .append("svg")
@@ -131,7 +131,7 @@ function drawCorr(data) {
             circles.transition().duration(500)
             .style("opacity", 0.7)
         }
-        if (!uniqueArtists.includes(selectedArtist)) return;
+        // if (!uniqueArtists.includes(selectedArtist)) return;
 
         circles.transition().duration(500)
             .style("opacity", d =>
@@ -142,7 +142,7 @@ function drawCorr(data) {
     }
 
     resetSearch.on("click", function () {
-        artistSearch.node().value = ""; 
+        artistSearch.node().value = "";
         artistSuggestions.style("display", "none");
         updateScatterPlot(); 
     });

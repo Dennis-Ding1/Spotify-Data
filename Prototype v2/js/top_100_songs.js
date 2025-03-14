@@ -41,9 +41,9 @@ function updateVisualization(filteredData = data) {
     trackScoreData.sort((a, b) => a.trackScore - b.trackScore);
 
     // Set margins and dimensions
-    const margin = { top: 0, right: 30, bottom: 60, left: 150 };
-    const width = 800 - margin.left - margin.right;
-    const height = 500 - margin.top - margin.bottom;
+    const margin = { top: 10, right: 30, bottom: 60, left: 150 };
+    let width = document.getElementById("top_100_songs").getBoundingClientRect().width - margin.left - margin.right;
+    let height = document.getElementById("top_100_songs").getBoundingClientRect().height - margin.top - margin.bottom;
 
     // Remove existing SVG before re-drawing
     d3.select("#top_100_songs").html("");

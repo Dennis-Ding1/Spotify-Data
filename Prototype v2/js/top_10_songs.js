@@ -4,9 +4,9 @@ function drawTop10Songs(data) {
         d["Release Year"] = new Date(d["Release Date"]).getFullYear(); // Extract Year
     });
 
-    const margin = {top: 50, right: 30, bottom: 0, left: 250};
-    const width = 800 - margin.left - margin.right;
-    const height = 500 - margin.top - margin.bottom;
+    const margin = { top: 10, right: 40, bottom: 60, left: 160 };
+    let width = document.getElementById("top_10_songs").getBoundingClientRect().width - margin.left - margin.right;
+    let height = document.getElementById("top_10_songs").getBoundingClientRect().height - margin.top - margin.bottom;
 
     const svg = d3.select("#top_10_songs")
         .append("svg")

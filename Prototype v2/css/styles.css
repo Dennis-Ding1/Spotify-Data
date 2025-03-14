@@ -3,34 +3,76 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f8f9fa;
+    background-color: #f0f0f0;
     color: #333;
 }
 
 /* ======= Navigation Bar ======= */
 .navbar {
-    background-color: #1DB954 !important; /* Spotify Green */
+    /*background-color: #1DB954 !important; !* Spotify Green *!*/
+    background-color: #f0f0f0 !important;
+}
+
+.navbar .container{
+    display: block;
+}
+
+.fa-spotify {
+    color: #1DB954;
 }
 
 .navbar-brand {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     font-weight: bold;
+    color: black;
 }
 
 /* ======= Hero Section ======= */
+/*header {*/
+/*    background-color: #1DB954;*/
+/*    padding: 40px 20px;*/
+/*    text-align: center;*/
+/*    color: white;*/
+/*    */
+/*}*/
 header {
-    background-color: #1DB954;
-    padding: 40px 20px;
-    text-align: center;
-    color: white;
+    width: 100%;
+    height: 40vw;
+    overflow: hidden;
+    position: relative;
+    background-color: #f0f0f0 !important;
+    padding: 0 0;
+}
+
+.title-container {
+    position: absolute;
+    width: 100%;
+    height: 60vw;
+    background-color: rgba(204, 204, 204, 0.9);
+    padding: 10vw 30vw 0 20vw;
 }
 
 header h1 {
-    font-size: 2.3vw;
+    font-size: 4.5vw;
+    color: black;
+    opacity: 0.9;
+    font-weight: 700;
+}
+
+header h3 {
+    color: rgba(50, 50, 50, 0.9);
+    margin: 2vw 0;
 }
 
 header p {
-    font-size: 1.5vw;
+    font-style: italic;
+}
+
+header img {
+    width: 100%; /* Stretches */
+    height: 100%;
+    object-fit: cover; /* Stretches while cropping */
+    object-position: bottom;
 }
 
 /* Author Text */
@@ -41,7 +83,7 @@ header p {
 
 /* ======= Container & Sections ======= */
 .container {
-    width: 70%;
+    width: 90%;
     margin: auto;
     padding: 20px;
 }
@@ -57,13 +99,45 @@ h2 {
 }
 
 /* ======= Data Visualization Section ======= */
-.vis-container {
+
+.vis-container,
+.insight-container{
     margin: 2vw 0;
     padding: 2vw;
-    background-color: white;
+    background-color:#f0f0f0;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /*width: 100%;*/
+    /*height: 40vw*/
+
+}
+
+.insight-container h4 {
+    font-weight: bold;
+    margin-bottom: 1vw;
+}
+
+.fa-lightbulb{
+    color: #d8d828;
+}
+
+.tip {
+    font-style: italic;
+    font-size: small;
+    background-color: #e8e8e8;
+    padding: 0.7vw 1vw;
+    border-radius: 0.5vw;
+}
+
+.insight {
+    color: #3a3a3a;
+}
+
+#top_100_songs,
+#top_10_songs,
+#chart3{
     width: 100%;
+    height: 40vw;
 }
 
 /* ======= D3 Visualization Styles ======= */
@@ -101,7 +175,7 @@ svg {
 /* ======= Footer ======= */
 footer {
     background-color: #1DB954;
-    color: white;
+    color: #f0f0f0;
     text-align: center;
     padding: 1.5vw 0;
     font-size: 1.2vw;
@@ -156,7 +230,7 @@ footer {
     top: 40px; 
     left: 0;
     width: 100%;
-    background: white;
+    background: #f0f0f0;
     border: 1px solid #ccc;
     border-radius: 5px;
     list-style: none;
@@ -183,7 +257,7 @@ footer {
 /* Reset Button */
 #resetSearch {
     padding: 8px;
-    background-color: #ccc;
+    background-color: #cacaca;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -219,5 +293,6 @@ footer {
     border: 1px solid #ccc;
     border-radius: 5px;
 }
+
 
 

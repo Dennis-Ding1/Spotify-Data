@@ -14,6 +14,7 @@
 
     <!-- CSS -->
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
@@ -21,24 +22,33 @@
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="#">Spotify Trends</a>
+            <i class="fab fa-spotify fa-2x"></i>
+            <a class="navbar-brand" href="#">Spotify Insight</a>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <header class="bg-primary text-white text-center py-4">
-        <h1>Spotify Streaming Trends</h1>
-        <p>Analyzing the most streamed songs of 2024</p>
-        <p class="author">Created by: Haochen Ding, Yinuo Yang, Xinyue Li</p>
+    <header>
+        <div class="title-container">
+            <h1>How Shopify Shapes Global Music Trends</h1>
+            <h3>Explore what makes a song a stream hit.</h3>
+            <p>Created by: Haochen Ding, Yinuo Yang, Xinyue Li</p>
+        </div>
+        <img src="img/hero.png" alt="picture"/>
     </header>
 
     <!-- Main Content -->
     <div class="container mt-4">
 
         <!-- Section: Introduction -->
-        <section id="introduction" class="mb-5">
+        <section id="slider" class="mb-5">
             <h2>Introduction</h2>
-            <p>This project visualizes streaming trends on Spotify using real-world data.</p>
+            <div class="slider-container">
+                <label>Filter by Year: </label>
+                <input id="slider-start" type="number">
+                <div id="year-slider"></div>
+                <input id="slider-end" type="number">
+            </div>
         </section>
 
         <!-- Section: D3.js Visualizations -->
@@ -46,48 +56,63 @@
             <h2>Data Visualizations</h2>
 
             <!-- Placeholder for Visualization 1 -->
-            <div class="vis-container">
-
-                <div class="slider-container">
-                    <label>Filter by Year: </label>
-                    <input id="slider-start" type="number">
-                    <div id="year-slider"></div>
-                    <input id="slider-end" type="number">
+            <div class="row">
+                <div class="insight-container col-4">
+                    <h4>Are High Rated Songs Declining?</h4>
+                    <p class="insight">Insight 1</p>
+                    <p class="insight">Insight 2</p>
+                    <p class="tip">
+                        <i class="fas fa-lightbulb"></i>
+                        Adjust the year filter to compare different decades.
+                    </p>
                 </div>
+                <div class="vis-container col-8">
 
-                <!-- Top 10 Songs -->
-                <h3 id="chart-title" class="chart-title text-center">Top 10 Most Streamed Songs on Spotify (1987 - 2024)</h3>
-                <div id="top_10_songs"></div>
+                    <!-- Top 10 Songs -->
+                    <h3 id="chart-title" class="chart-title text-center">Top 10 Most Streamed Songs on Spotify (1987 - 2024)</h3>
+                    <div id="top_10_songs"></div>
 
-                <!-- Top 100 Songs -->
-                <h3 class="text-center">Top 100 Songs: Track Score Ranges</h3>
-                <div id="top_100_songs"></div>
-
-            </div>
-
-            <!-- Placeholder for Visualization 2 -->
-            <div class="vis-container">
-                <h3>vis</h3>
-
-            </div>
-
-            <!-- Placeholder for Visualization 3 -->
-            <div class="vis-container">
-                <h3>Correlation Between Playlist Reach and Streams</h3>
-
-                <!-- Artist Search Container -->
-                <div id="artist-search-container">
-                    <label for="artistSearch">Search Artist:</label>
-                    <input type="text" id="artistSearch" placeholder="Type an artist name..." autocomplete="off">
-                    <ul id="artistSuggestions" class="suggestions-list"></ul>
-                    <button id="resetSearch">Reset</button>
                 </div>
-            
-                <!-- Scatter Plot -->
-<!--                <h3>Vis 3</h3>-->
-                <div id="chart3"></div>
             </div>
-            
+
+            <div class="row">
+                <div class="insight-container col-4">
+                    <h4>Are High Rated Songs Declining?</h4>
+                    <p class="insight">Insight 1</p>
+                    <p class="insight">Insight 2</p>
+                    <p class="tip">
+                        <i class="fas fa-lightbulb"></i>
+                        Adjust the year filter to compare track scores by decade.
+                    </p>
+                </div>
+                <div class="vis-container col-8">
+
+                    <!-- Top 100 Songs -->
+                    <h3 class="text-center">Top 100 Most Popularity Songs: Track Score Ranges</h3>
+                    <div id="top_100_songs"></div>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="insight-container col-4">
+                    <h4>Are High Rated Songs Declining?</h4>
+                    <p class="insight">Insight 1</p>
+                    <p class="insight">Insight 2</p>
+                    <div id="artist-search-container">
+                        <input type="text" id="artistSearch" placeholder="Type an artist name..." autocomplete="off">
+                        <ul id="artistSuggestions" class="suggestions-list"></ul>
+                        <button id="resetSearch">Reset</button>
+                    </div>
+                </div>
+                <div class="vis-container col-8">
+
+                    <h3>Correlation Between Playlist Reach and Streams</h3>
+                    <div id="chart3"></div>
+
+                </div>
+            </div>
+
         </section>
 
         <!-- Section: Analysis -->
@@ -100,7 +125,7 @@
 
     <!-- Footer -->
     <footer class="bg-dark text-white text-center py-3">
-        <p>&copy; 2024 Spotify Data Visualization Project</p>
+        <p>&copy; 2025 Spotify Data Visualization Project</p>
     </footer>
 
     <!-- JavaScript -->
