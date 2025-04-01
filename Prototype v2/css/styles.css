@@ -192,6 +192,76 @@ footer {
     margin: 20px 0;
 }
 
+/* Mini Brush Container Styles */
+#mini-brush-container {
+    display: none;  /* 初始隐藏，滚动时显示 */
+    position: fixed;
+    top: 60px;  /* 导航栏下方 */
+    right: 20px;
+    width: 300px;
+    height: 80px; /* 稍微减小默认高度 */
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    padding: 8px 8px 8px 4px; /* 减少所有内边距 */
+    border: 1px solid #1DB954;
+    transition: box-shadow 0.3s ease;
+    /* 移除调整大小功能 */
+    resize: none;
+    overflow: hidden;
+}
+
+#mini-brush-container:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+.mini-brush-header {
+    display: flex;
+    justify-content: flex-end; /* 将控制按钮放在右侧，因为已没有标题 */
+    align-items: center;
+    margin-bottom: 3px; /* 减小标题与图表间距 */
+}
+
+.mini-brush-title {
+    font-size: 11px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.mini-brush-controls {
+    display: flex;
+    gap: 10px;
+    margin-right: 4px;
+}
+
+.mini-brush-control {
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.3s;
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mini-brush-control:hover {
+    opacity: 1;
+}
+
+.mini-brush-control.reset {
+    color: #1DB954; /* Spotify绿色 */
+}
+
+#mini-chart4 {
+    width: 100%;
+    height: calc(100% - 15px); /* 增加高度占比，因为删除了标题 */
+    min-height: 40px;
+}
+
 /* Search Input */
 #artistSearch {
     flex: 1;
@@ -247,5 +317,37 @@ footer {
 }
 
 .chart-instructions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     text-align: center;
+    margin-bottom: 15px;
+}
+
+.reset-button {
+    opacity: 0.7;
+    transition: opacity 0.3s;
+}
+
+.reset-button:hover {
+    opacity: 1;
+}
+
+/* Reset button styles */
+.main-reset-button {
+    cursor: pointer;
+    color: #333333;
+    font-weight: bold;
+    margin-top: 10px;
+    padding: 3px 12px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    border: 1px solid #333333;
+}
+
+.main-reset-button:hover {
+    background-color: #f5f5f5;
+    border-color: #000000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
