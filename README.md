@@ -74,7 +74,7 @@ This scatter plot shows the relationship between a song's playlist reach and its
 - The interface maintains usability and readability across devices
 
 **Non-obvious features:**
-- **Mini-brush controller**: A smaller version of the year selection brush appears fixed at the top when scrolling down, allowing users to adjust their selection from anywhere on the page
+- **Mini-brush controller**: A smaller version of the year selection brush appears fixed at the top when scrolling down, allowing users to adjust their selection from anywhere on the page. And user can minimize it anytime.
 - **Tooltips**: Hidden tooltip functionality appears on hover for most chart elements, providing additional context and details
 - **Layer management**: When selecting artists, their data points appear on top of other points to ensure visibility
 - **Visual hierarchy**: Selected data points are emphasized with larger sizes and brighter colors to draw attention
