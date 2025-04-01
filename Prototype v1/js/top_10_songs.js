@@ -20,7 +20,7 @@ function drawTop10Songs(data) {
     const y = d3.scaleBand().range([0, height]).padding(0.2);
 
     // noUiSlider
-    let minYear = 2010  // d3.min(data, d => d["Release Year"]);
+    let minYear = d3.min(data, d => d["Release Year"]);
     let maxYear = d3.max(data, d => d["Release Year"]);
 
     let slider = document.getElementById("year-slider");
