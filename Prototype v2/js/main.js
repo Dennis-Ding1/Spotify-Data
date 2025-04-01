@@ -7,11 +7,9 @@ d3.csv("data/Cleaned_Spotify_Data.csv").then(function(data) {
     console.log("Data loaded, total records:", data.length);
     
     try {
-        // 筛选有效数据
         data = data.filter(d => !isNaN(+d["Spotify Streams"]) && d["Spotify Streams"] > 0);
         console.log("Valid records after filtering:", data.length);
         
-        // 按顺序初始化所有图表，确保引用关系正确
         console.log("Initializing top 10 songs chart");
         const updateTop10Chart = drawTop10Songs(data);
         

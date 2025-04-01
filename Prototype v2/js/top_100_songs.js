@@ -21,7 +21,7 @@ export function drawTop100Songs(rawData, updateTop10Chart) {
 }
 
 function updateVisualization(minYear, maxYear, updateTop10Chart) {
-    // 更新标题，添加年份范围
+    // Update title with year range
     d3.select("#top_100_songs")
     .node().closest(".vis-container")
     .querySelector(".chart-title").innerHTML = `Track Score Ranges in Top 100 Most Popularity Songs <br> (${minYear} - ${maxYear})`;
@@ -57,7 +57,7 @@ function updateVisualization(minYear, maxYear, updateTop10Chart) {
     let width = document.getElementById("top_100_songs").getBoundingClientRect().width - margin.left - margin.right;
     let height = document.getElementById("top_100_songs").getBoundingClientRect().height - margin.top - margin.bottom;
 
-    // 检查是否已经存在SVG
+    // Check if SVG already exists
     const svgExists = d3.select("#top_100_songs svg").size() > 0;
     
     let svg;
@@ -81,10 +81,10 @@ function updateVisualization(minYear, maxYear, updateTop10Chart) {
         .curve(d3.curveMonotoneX); // Smooth the line
 
     if (!svgExists) {
-        // 首次创建SVG
+        // First-time SVG creation
         d3.select("#top_100_songs").html("");
         
-        // 创建新的SVG
+        // Create new SVG
         svg = d3.select("#top_100_songs")
             .append("svg")
             .attr("width", width + margin.left + margin.right)
@@ -106,7 +106,7 @@ function updateVisualization(minYear, maxYear, updateTop10Chart) {
             .attr("class", "y-axis")
             .call(d3.axisLeft(y));
 
-        // 添加线条路径 - 添加id以便后续更新
+        // Add line path with ID for later updates
         svg.append("path")
             .attr("id", "line-path")
             .attr("fill", "none")
@@ -114,11 +114,11 @@ function updateVisualization(minYear, maxYear, updateTop10Chart) {
             .attr("stroke-width", 2)
             .attr("d", line(trackScoreData));
 
-        // 添加点组 - 添加id以便后续更新
+        // Add dots group with ID for later updates
         svg.append("g")
             .attr("id", "dots-group");
             
-        // 添加工具提示
+        // Add tooltip
         if (!d3.select("body").select("#top100-tooltip").size()) {
             d3.select("body").append("div")
                 .attr("id", "top100-tooltip")
@@ -145,10 +145,10 @@ function updateVisualization(minYear, maxYear, updateTop10Chart) {
             .attr("text-anchor", "middle")
             .text("Number of Songs");
     } else {
-        // 更新现有SVG
+        // Update existing SVG
         svg = d3.select("#top_100_songs svg g");
         
-        // 更新X轴和Y轴，带有过渡效果
+        // Update X and Y axes with transition
         svg.select(".x-axis")
             .transition()
             .duration(750)
@@ -162,7 +162,7 @@ function updateVisualization(minYear, maxYear, updateTop10Chart) {
             .duration(750)
             .call(d3.axisLeft(y));
             
-        // 更新线条路径，带有过渡效果
+        // Update line path with transition
         svg.select("#line-path")
             .datum(trackScoreData)
             .transition()
@@ -172,28 +172,28 @@ function updateVisualization(minYear, maxYear, updateTop10Chart) {
     
     const tooltip = d3.select("#top100-tooltip");
 
-    // 更新点 - 使用D3的数据绑定进行过渡
+    // Update dots using D3 data binding for transitions
     const dots = svg.select("#dots-group").selectAll(".dot")
         .data(trackScoreData);
     
-    // 删除多余的点
+    // Remove extra dots
     dots.exit()
         .transition()
         .duration(500)
         .style("opacity", 0)
         .remove();
     
-    // 添加新点并设置初始状态
+    // Add new dots with initial state
     const dotsEnter = dots.enter()
         .append("circle")
         .attr("class", "dot")
         .attr("r", 4)
         .attr("fill", "#004d00")
-        .style("opacity", 0) // 初始透明度为0
+        .style("opacity", 0) // Initial opacity 0
         .attr("cx", d => x(`${d.trackScore}-${d.trackScore + binSize - 1}`) + x.bandwidth() / 2)
         .attr("cy", d => y(d.count));
     
-    // 为所有点设置悬停事件和过渡效果
+    // Set hover events and transitions for all dots
     dotsEnter.merge(dots)
         .on("mouseover", function (event, d) {
             d3.select(this)
@@ -212,9 +212,9 @@ function updateVisualization(minYear, maxYear, updateTop10Chart) {
                 .style("stroke", "none");
             tooltip.style("visibility", "hidden");
         })
-        .transition() // 应用过渡效果
+        .transition() // Apply transition
         .duration(750)
-        .style("opacity", 1) // 最终透明度为1
+        .style("opacity", 1) // Final opacity 1
         .attr("cx", d => x(`${d.trackScore}-${d.trackScore + binSize - 1}`) + x.bandwidth() / 2)
         .attr("cy", d => y(d.count));
 
