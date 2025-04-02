@@ -2,7 +2,12 @@ export function drawCorr(data) {
     data.forEach(d => {
         d["Spotify Streams"] = +d["Spotify Streams"];
         d["Spotify Playlist Reach"] = +d["Spotify Playlist Reach"];
+        d["Release Year"] = +d["Release Year"]; // 确保Release Year是数字类型
     });
+
+    // 获取最小和最大年份
+    const minYear = d3.min(data, d => d["Release Year"]);
+    const maxYear = d3.max(data, d => d["Release Year"]);
 
     const uniqueArtists = [...new Set(data.map(d => d["Artist"]))].sort();
 
@@ -50,8 +55,17 @@ export function drawCorr(data) {
     });
 
     const margin = { top: 50, right: 50, bottom: 100, left: 100 };
-    let width = document.getElementById("chart3").getBoundingClientRect().width - margin.left - margin.right;
-    let height = document.getElementById("chart3").getBoundingClientRect().height - margin.top - margin.bottom;
+    // 获取容器尺寸
+    let containerWidth = document.getElementById("chart3").getBoundingClientRect().width;
+    let containerHeight = document.getElementById("chart3").getBoundingClientRect().height;
+    
+    // 使用更大的尺寸，但确保不超过容器
+    let width = Math.min(containerWidth * 1.2, containerWidth) - margin.left - margin.right;
+    let height = Math.min(containerHeight * 1.2, containerHeight) - margin.top - margin.bottom;
+
+    // 确保SVG至少有最小尺寸
+    width = Math.max(width, 600);
+    height = Math.max(height, 400);
 
     const svg = d3.select("#chart3")
         .append("svg")
@@ -132,38 +146,103 @@ export function drawCorr(data) {
             tooltip.style("visibility", "hidden");
         });
 
-        function updateScatterPlot() {
-            const selectedArtist = artistSearch.node().value;
-            if (!selectedArtist) {
-                circles.transition().duration(500)
-                    .style("opacity", 0.7)
-                    .style("fill", "#1DB954"); 
-                return;
-            }
-        
-            circles.transition().duration(500)
-                .style("opacity", d =>
-                    d["Artist"] === selectedArtist ? 1 : 0.1)
-                .style("fill", d =>
-                    d["Artist"] === selectedArtist ? "#1DB954" : "#cccccc"
-                );
-        
-            // Move selected points to the front
-            circles.filter(d => d["Artist"] === selectedArtist).each(function () {
-                this.parentNode.appendChild(this);
-            });
-        } 
-        resetSearch.on("click", function () {
-            artistSearch.node().value = "";
-            artistSuggestions.style("display", "none");
-        
-            circles.transition().duration(500)
-                .style("opacity", 0.7)
-                .style("fill", "#1DB954");
+    // 添加变量保存当前筛选条件
+    let currentArtist = "";
+    let currentMinYear = 0;
+    let currentMaxYear = 3000; // 一个足够大的年份
 
-            circles.each(function () {
-                this.parentNode.appendChild(this);
+    function updateScatterPlot() {
+        currentArtist = artistSearch.node().value;
+        updateVisualization();
+    }
+
+    function updateByYearRange(minYear, maxYear) {
+        currentMinYear = minYear;
+        currentMaxYear = maxYear;
+        
+        // 更新图表标题，显示选中的年份范围
+        d3.select("#corr-chart-title")
+            .html(`Correlation Between Playlist Reach and Streams <br> (${minYear} - ${maxYear})`);
+            
+        updateVisualization();
+    }
+
+    // 新的统一更新函数
+    function updateVisualization() {
+        circles.transition().duration(500)
+            .style("opacity", d => {
+                const matchesArtist = !currentArtist || d["Artist"] === currentArtist;
+                const year = +d["Release Year"];
+                const matchesYear = year >= currentMinYear && year <= currentMaxYear;
+                
+                // 只有在年份范围内的点才会显示
+                if (matchesYear) {
+                    // 如果有艺术家筛选，只显示匹配的艺术家
+                    if (currentArtist) {
+                        return d["Artist"] === currentArtist ? 1 : 0.7;
+                    } else {
+                        return 0.7; // 没有艺术家筛选时，所有年份范围内的点显示
+                    }
+                } else {
+                    return 0; // 不在范围内的点全部隐藏
+                }
+            })
+            .style("fill", d => {
+                // 只区分艺术家匹配的点
+                if (currentArtist && d["Artist"] === currentArtist) {
+                    return "#FF7700"; // 艺术家匹配的点使用橙色高亮
+                } else {
+                    return "#1DB954"; // 其他点保持绿色
+                }
+            })
+            .attr("r", d => {
+                // 艺术家匹配的点稍微大一些
+                if (currentArtist && d["Artist"] === currentArtist) {
+                    return 4;
+                } else {
+                    return 3;
+                }
             });
+
+        // 将不可见的点移到后面
+        circles.filter(d => {
+            const year = +d["Release Year"];
+            return !(year >= currentMinYear && year <= currentMaxYear);
+        }).each(function() {
+            this.parentNode.appendChild(this);
         });
+            
+        // 将可见但非高亮的点移到中间层
+        if (currentArtist) {
+            circles.filter(d => {
+                const year = +d["Release Year"];
+                const matchesYear = year >= currentMinYear && year <= currentMaxYear;
+                return matchesYear && d["Artist"] !== currentArtist;
+            }).each(function() {
+                this.parentNode.appendChild(this);
+            });
+                
+            // 将高亮的点移到最前面
+            circles.filter(d => {
+                const year = +d["Release Year"];
+                const matchesYear = year >= currentMinYear && year <= currentMaxYear;
+                return matchesYear && d["Artist"] === currentArtist;
+            }).each(function() {
+                this.parentNode.appendChild(this);
+            });
+        }
+    }
 
+    window.updateCorrChart = updateByYearRange;
+
+    // 初始化标题，显示所有数据的年份范围
+    updateByYearRange(minYear, maxYear);
+
+    resetSearch.on("click", function () {
+        artistSearch.node().value = "";
+        artistSuggestions.style("display", "none");
+        
+        currentArtist = "";
+        updateVisualization();
+    });
 }

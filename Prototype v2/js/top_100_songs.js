@@ -21,6 +21,7 @@ export function drawTop100Songs(rawData, updateTop10Chart) {
 }
 
 function updateVisualization(minYear, maxYear, updateTop10Chart) {
+    // Update title with year range
     d3.select("#top_100_songs")
     .node().closest(".vis-container")
     .querySelector(".chart-title").innerHTML = `Track Score Ranges in Top 100 Most Popularity Songs <br> (${minYear} - ${maxYear})`;
@@ -56,17 +57,11 @@ function updateVisualization(minYear, maxYear, updateTop10Chart) {
     let width = document.getElementById("top_100_songs").getBoundingClientRect().width - margin.left - margin.right;
     let height = document.getElementById("top_100_songs").getBoundingClientRect().height - margin.top - margin.bottom;
 
-    // Remove existing SVG before re-drawing
-    d3.select("#top_100_songs").html("");
-
-    // Select the container
-    let svg = d3.select("#top_100_songs")
-        .append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-        .append("g")
-        .attr("transform", `translate(${margin.left}, ${margin.top})`);
-
+    // Check if SVG already exists
+    const svgExists = d3.select("#top_100_songs svg").size() > 0;
+    
+    let svg;
+    
     // X-axis scale (Track Score Ranges)
     let x = d3.scaleBand()
         .domain(trackScoreData.map(d => `${d.trackScore}-${d.trackScore + binSize - 1}`))  // Labels for bins
@@ -78,51 +73,128 @@ function updateVisualization(minYear, maxYear, updateTop10Chart) {
         .domain([0, d3.max(trackScoreData, d => d.count)])
         .nice()
         .range([height, 0]);
-
-    // X-axis
-    svg.append("g")
-        .attr("transform", `translate(0, ${height})`)
-        .call(d3.axisBottom(x))
-        .selectAll("text")
-        .attr("transform", "rotate(-45)")
-        .style("text-anchor", "end");
-
-    // Y-axis
-    svg.append("g")
-        .call(d3.axisLeft(y));
-
+        
     // Line generator
     let line = d3.line()
         .x(d => x(`${d.trackScore}-${d.trackScore + binSize - 1}`) + x.bandwidth() / 2)
         .y(d => y(d.count))
         .curve(d3.curveMonotoneX); // Smooth the line
 
-    // Add the line path
-    svg.append("path")
-        .datum(trackScoreData)
-        .attr("fill", "none")
-        .attr("stroke", "#1DB954")
-        .attr("stroke-width", 2)
-        .attr("d", line);
+    if (!svgExists) {
+        // First-time SVG creation
+        d3.select("#top_100_songs").html("");
+        
+        // Create new SVG
+        svg = d3.select("#top_100_songs")
+            .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-    const tooltip = d3.select("body")
-        .append("div")
-        .style("position", "absolute")
-        .style("background", "#fff")
-        .style("padding", "8px")
-        .style("border", "1px solid #ccc")
-        .style("border-radius", "5px")
-        .style("visibility", "hidden")
-        .style("font-size", "14px");
+        // X-axis
+        svg.append("g")
+            .attr("class", "x-axis")
+            .attr("transform", `translate(0, ${height})`)
+            .call(d3.axisBottom(x))
+            .selectAll("text")
+            .attr("transform", "rotate(-45)")
+            .style("text-anchor", "end");
 
-    // Add points
-    svg.selectAll(".dot")
-        .data(trackScoreData)
-        .enter().append("circle")
-        .attr("cx", d => x(`${d.trackScore}-${d.trackScore + binSize - 1}`) + x.bandwidth() / 2)
-        .attr("cy", d => y(d.count))
+        // Y-axis
+        svg.append("g")
+            .attr("class", "y-axis")
+            .call(d3.axisLeft(y));
+
+        // Add line path with ID for later updates
+        svg.append("path")
+            .attr("id", "line-path")
+            .attr("fill", "none")
+            .attr("stroke", "#1DB954")
+            .attr("stroke-width", 2)
+            .attr("d", line(trackScoreData));
+
+        // Add dots group with ID for later updates
+        svg.append("g")
+            .attr("id", "dots-group");
+            
+        // Add tooltip
+        if (!d3.select("body").select("#top100-tooltip").size()) {
+            d3.select("body").append("div")
+                .attr("id", "top100-tooltip")
+                .style("position", "absolute")
+                .style("background", "#fff")
+                .style("padding", "8px")
+                .style("border", "1px solid #ccc")
+                .style("border-radius", "5px")
+                .style("visibility", "hidden")
+                .style("font-size", "14px");
+        }
+
+        // Labels
+        svg.append("text")
+            .attr("x", width / 2)
+            .attr("y", height + margin.bottom)
+            .attr("text-anchor", "middle")
+            .text("Track Score Range");
+
+        svg.append("text")
+            .attr("x", -height / 2)
+            .attr("y", -60)
+            .attr("transform", "rotate(-90)")
+            .attr("text-anchor", "middle")
+            .text("Number of Songs");
+    } else {
+        // Update existing SVG
+        svg = d3.select("#top_100_songs svg g");
+        
+        // Update X and Y axes with transition
+        svg.select(".x-axis")
+            .transition()
+            .duration(750)
+            .call(d3.axisBottom(x))
+            .selectAll("text")
+            .attr("transform", "rotate(-45)")
+            .style("text-anchor", "end");
+            
+        svg.select(".y-axis")
+            .transition()
+            .duration(750)
+            .call(d3.axisLeft(y));
+            
+        // Update line path with transition
+        svg.select("#line-path")
+            .datum(trackScoreData)
+            .transition()
+            .duration(750)
+            .attr("d", line);
+    }
+    
+    const tooltip = d3.select("#top100-tooltip");
+
+    // Update dots using D3 data binding for transitions
+    const dots = svg.select("#dots-group").selectAll(".dot")
+        .data(trackScoreData);
+    
+    // Remove extra dots
+    dots.exit()
+        .transition()
+        .duration(500)
+        .style("opacity", 0)
+        .remove();
+    
+    // Add new dots with initial state
+    const dotsEnter = dots.enter()
+        .append("circle")
+        .attr("class", "dot")
         .attr("r", 4)
         .attr("fill", "#004d00")
+        .style("opacity", 0) // Initial opacity 0
+        .attr("cx", d => x(`${d.trackScore}-${d.trackScore + binSize - 1}`) + x.bandwidth() / 2)
+        .attr("cy", d => y(d.count));
+    
+    // Set hover events and transitions for all dots
+    dotsEnter.merge(dots)
         .on("mouseover", function (event, d) {
             d3.select(this)
                 .style("fill", "white")
@@ -139,24 +211,15 @@ function updateVisualization(minYear, maxYear, updateTop10Chart) {
                 .style("fill", "#004d00")
                 .style("stroke", "none");
             tooltip.style("visibility", "hidden");
-        });
+        })
+        .transition() // Apply transition
+        .duration(750)
+        .style("opacity", 1) // Final opacity 1
+        .attr("cx", d => x(`${d.trackScore}-${d.trackScore + binSize - 1}`) + x.bandwidth() / 2)
+        .attr("cy", d => y(d.count));
 
-    // Labels
-    svg.append("text")
-        .attr("x", width / 2)
-        .attr("y", height + margin.bottom)
-        .attr("text-anchor", "middle")
-        .text("Track Score Range");
-
-    svg.append("text")
-        .attr("x", -height / 2)
-        .attr("y", -60)
-        .attr("transform", "rotate(-90)")
-        .attr("text-anchor", "middle")
-        .text("Number of Songs");
-
-    if (updateTop10Chart) {
-        updateTop10Chart(minYear, maxYear)
+    if (updateTop10Chart && typeof updateTop10Chart === 'function') {
+        updateTop10Chart(minYear, maxYear);
     }
 }
 
