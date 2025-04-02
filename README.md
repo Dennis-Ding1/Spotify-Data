@@ -4,7 +4,7 @@
 Created by Yinuo Yang, Haochen Ding, Xinyue Li 
 
 ## Overview
-This project visualizes Spotify streaming data to reveal trends and insights about what makes songs successful on the platform. It explores the relationship between release years, popularity, track scores, playlist reach, and streaming numbers through interactive visualizations.
+This project visualizes Spotify streaming data to reveal trends and insights about what makes songs successful on the platform. It explores the relationship between release years, popularity, track scores, playlist reach, and streaming numbers through interactive visualizations. Full working versionn is in folder docs/.
 
 ## Live Demo
 - **Project Website**: [https://dennis-ding1.github.io/CSC316-Project/](https://dennis-ding1.github.io/CSC316-Project/)
